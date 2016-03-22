@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: owncloud-controller
+spec:
+  replicas: 1
+  selector:
+    app: owncloud
+  template:
+    metadata:
+      labels:
+        app: owncloud
+    spec:
+      containers:
+      - name: owncloud
+        image: adimania/owncloud9-centos7
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - name: userdata
+            mountPath: /var/www/html/owncloud/data
+      volumes:
+        - name: userdata
+          hostPath:
+            path: /opt/data
+
